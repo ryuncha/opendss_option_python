@@ -1,0 +1,22 @@
+// P-T curve is per unit of rated Pmpp vs temperature
+ // This one is for a Pmpp stated at 25 deg 
+New XYCurve.MyPvsT npts=4 xarray=[0 25 75 100] yarray=[1.2 1.0 0.8 0.6] 
+
+// efficiency curve is per unit eff vs per unit power 
+New XYCurve.MyEff npts=4 xarray=[.1 .2 .4 1.0] yarray=[.86 .9 .93 .97] 
+
+// per unit irradiance curve (per unit if "irradiance" property) 
+New Loadshape.MyIrrad npts=24 interval=1
+ mult=[0 0 0 0 0 0 .1 .2 .3 .5 .8 .9 1.0 1.0 .99 .9 .7 .4 .1 0 0 0 0 0 ] !mult=(File=irradiance.csv) 
+
+// 24-hr temp shape curve 
+New Tshape.MyTemp npts=24 interval=1 temp=[25 25 25 25 25 25 25 25 35 40 45 50 60 60 55 40 35 30 25 25 25 25 25 25 ] 
+!(File=temperature.csv) 
+
+// pv definition 
+New PVSystem.PV1 phases=3 bus1=67 kV=4.16 kVA=2975 irrad=.98 Pmpp=2707 temperature=25 PF=1 %cutin=0.1 %cutout=0.1 effcurve=Myeff P-TCurve=MyPvsT Daily=MyIrrad TDaily=MyTemp !default for inverter is unity PF
+New PVSystem.PV2 phases=3 bus1=47 kV=4.16 kVA=1100 irrad=.98 Pmpp=1001 temperature=25 PF=1 %cutin=0.1 %cutout=0.1 effcurve=Myeff P-TCurve=MyPvsT Daily=MyIrrad TDaily=MyTemp !default for inverter is unity PF
+New PVSystem.PV3 phases=3 bus1=28 kV=4.16 kVA=250 irrad=.98 Pmpp=227.5 temperature=25 PF=1 %cutin=0.1 %cutout=0.1 effcurve=Myeff P-TCurve=MyPvsT Daily=MyIrrad TDaily=MyTemp !default for inverter is unity PF
+
+ 
+
